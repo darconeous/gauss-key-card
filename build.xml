@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Gauss Key Card Applet" default="dist" basedir=".">
+  <description>Builds the project.</description>
+
+  <target name="dist" description="generate the distribution">
+    <tstamp/>
+    <ant dir="ext/ant"/>
+    <!-- Create the distribution directory -->
+    <taskdef name="javacard" classname="pro.javacard.ant.JavaCard" classpath="ext/ant/ant-javacard.jar"/>
+    <javacard>
+      <cap aid="F465736C614C6F676963303032" output="bin/GaussKeyCard.cap" sources="src" classes="bin" version="1.0">
+        <applet class="io.github.darconeous.gausskeycard.GaussKeyCard" aid="F465736C614C6F67696330303201"/>
+      </cap>
+    </javacard>
+  </target>
+
+  <target name="clean" description="clean up">
+    <!-- Delete the built applet -->
+    <delete dir="bin"/>
+  </target>
+
+</project>
