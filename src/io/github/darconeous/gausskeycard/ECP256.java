@@ -10,7 +10,7 @@ import javacard.security.KeyPair;
 public class ECP256 {
 	public static final short PRIVATE_KEY_LENGTH = 256;
 
-	public static final byte[] nistp256_p = {
+	public static final byte[] p = {
 	    (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x0,
 	    (byte)0x0, (byte)0x0, (byte)0x1, (byte)0x0, (byte)0x0, (byte)0x0,
 	    (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0,
@@ -19,7 +19,7 @@ public class ECP256 {
 	    (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff
 	};
 
-	public static final byte[] nistp256_a = {
+	public static final byte[] a = {
 	    (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x0,
 	    (byte)0x0, (byte)0x0, (byte)0x1, (byte)0x0, (byte)0x0, (byte)0x0,
 	    (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0, (byte)0x0,
@@ -28,7 +28,7 @@ public class ECP256 {
 	    (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xfc
 	};
 
-	public static final byte[] nistp256_b = {
+	public static final byte[] b = {
 	    (byte)0x5a, (byte)0xc6, (byte)0x35, (byte)0xd8, (byte)0xaa,
 	    (byte)0x3a, (byte)0x93, (byte)0xe7, (byte)0xb3, (byte)0xeb,
 	    (byte)0xbd, (byte)0x55, (byte)0x76, (byte)0x98, (byte)0x86,
@@ -38,7 +38,7 @@ public class ECP256 {
 	    (byte)0x60, (byte)0x4b
 	};
 
-	public static final byte[] nistp256_R = {
+	public static final byte[] r = {
 	    (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0x00,
 	    (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xFF, (byte)0xFF,
 	    (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
@@ -48,7 +48,7 @@ public class ECP256 {
 	    (byte)0x25, (byte)0x51
 	};
 
-	public static final byte[] nistp256_G = {
+	public static final byte[] g = {
 	    (byte)0x4, (byte)0x6b, (byte)0x17, (byte)0xd1, (byte)0xf2,
 	    (byte)0xe1, (byte)0x2c, (byte)0x42, (byte)0x47, (byte)0xf8,
 	    (byte)0xbc, (byte)0xe6, (byte)0xe5, (byte)0x63, (byte)0xa4,
@@ -65,11 +65,11 @@ public class ECP256 {
 	};
 
 	public static void setCurveParameters(ECKey eckey) {
-		eckey.setFieldFP(nistp256_p, (short)0, (short)(nistp256_p.length));
-		eckey.setA(nistp256_a, (short)0, (short)(nistp256_a.length));
-		eckey.setB(nistp256_b, (short)0, (short)(nistp256_b.length));
-		eckey.setG(nistp256_G, (short)0, (short)(nistp256_G.length));
-		eckey.setR(nistp256_R, (short)0, (short)(nistp256_R.length));
+		eckey.setFieldFP(p, (short)0, (short)(p.length));
+		eckey.setA(a, (short)0, (short)(a.length));
+		eckey.setB(b, (short)0, (short)(b.length));
+		eckey.setG(g, (short)0, (short)(g.length));
+		eckey.setR(r, (short)0, (short)(r.length));
 	}
 
 	public static KeyPair newKeyPair(boolean keyEncryption) {
