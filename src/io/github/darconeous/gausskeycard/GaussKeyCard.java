@@ -4,12 +4,13 @@ import javacard.framework.APDU;
 import javacard.framework.Applet;
 import javacard.framework.ISO7816;
 import javacard.framework.ISOException;
+import javacard.security.AESKey;
 import javacard.security.ECPrivateKey;
 import javacard.security.ECPublicKey;
-import javacard.security.AESKey;
-import javacard.security.KeyBuilder;
 import javacard.security.KeyAgreement;
+import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
+import javacard.security.RandomData;
 import javacardx.crypto.Cipher;
 
 public class GaussKeyCard extends Applet
@@ -25,6 +26,7 @@ public class GaussKeyCard extends Applet
 	private final KeyAgreement ecdh;
 	private final Cipher aes_ecb;
 	private final AESKey aes_key;
+	private final RandomData rng;
 
 	public static void
 	install(byte[] info, short off, byte len)
@@ -44,6 +46,10 @@ public class GaussKeyCard extends Applet
 
 		aes_ecb = Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_ECB_NOPAD, false);
 		aes_key = (AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
+
+		// We shouldn't require high-strength random numbers
+		// for calculating the challenge salt.
+		rng = RandomData.getInstance(RandomData.ALG_PSEUDO_RANDOM);
 	}
 
 	public void
@@ -126,6 +132,9 @@ public class GaussKeyCard extends Applet
 
 		aes_key.setKey(buffer, (short)16);
 		aes_ecb.init(aes_key, Cipher.MODE_ENCRYPT);
+
+		// Generate the random salt.
+		rng.generateData(buffer, OFFSET_CHALLENGE, (short)4);
 
 		short len = aes_ecb.doFinal(buffer, OFFSET_CHALLENGE, (short)16, buffer, (short)0);
 		final short le = apdu.setOutgoing();
