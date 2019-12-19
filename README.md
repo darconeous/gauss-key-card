@@ -30,10 +30,12 @@ using this applet:
 
 ### Java Cards with 4-byte UIDs won't work ###
 
-The authenticator on supported vehicles will currently refuse to pair
+The authenticator on supported vehicles seems to refuse to pair
 with any card that doesn't have a 7-byte UID. This unfortunately means
 that most commonly-available dual-interface Javacards will not be
 recognized by vehicles even when this applet is loaded.
+
+A list of tested cards can be found [here](https://github.com/darconeous/gauss-key-card/wiki/Recommended-Cards).
 
 ### Software updates could make this applet useless ###
 
@@ -87,6 +89,8 @@ subsequently pair with the card.
 [`KeyAgreement.ALG_EC_SVDP_DH`]: https://docs.oracle.com/javacard/3.0.5/api/javacard/security/KeyAgreement.html#ALG_EC_SVDP_DH
 [`Cipher.ALG_AES_BLOCK_128_ECB_NOPAD`]: https://docs.oracle.com/javacard/3.0.5/api/javacardx/crypto/Cipher.html#ALG_AES_BLOCK_128_ECB_NOPAD
 [Known card management keys]: https://github.com/martinpaljak/GlobalPlatformPro/wiki/Keys
+
+A list of tested cards can be found [here](https://github.com/darconeous/gauss-key-card/wiki/Recommended-Cards).
 
 ## Installing/Uninstalling ##
 
