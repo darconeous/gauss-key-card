@@ -81,7 +81,8 @@ subsequently pair with the card.
 
  * Java Card 2.2.2 (or later)
  * Contactless ISO-14443a interface (NFC)
- * **7-byte NFC UID**
+ * **7-byte NFC UID.**
+ * **FSCI must be 6 or larger.** (Must support frame sizes of at least 96 bytes)
  * Must support [`KeyAgreement.ALG_EC_SVDP_DH`][]
  * Must support [`Cipher.ALG_AES_BLOCK_128_ECB_NOPAD`][]
  * [Known card management keys][], so you can actually load the applet
