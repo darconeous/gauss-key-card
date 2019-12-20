@@ -28,12 +28,27 @@ FOR MORE INFORMATION.
 There are some serious caveats that need to be well understood before
 using this applet:
 
-### Java Cards with 4-byte UIDs won't work ###
+### Maximum Frame Size ###
 
-The authenticator on supported vehicles seems to refuse to pair
-with any card that doesn't have a 7-byte UID. This unfortunately means
-that most commonly-available dual-interface Javacards will not be
-recognized by vehicles even when this applet is loaded.
+The maximum frame size (FSC) for the card must be 96 bytes or greater.
+This corresponds to a FSCI value of 6 or greater. **Any card with an FSCI
+of 5 or less will not work**.
+
+Tesla vehicles will ignore the FSCI field of the ATS, which means that it
+will not attempt to break up larger frames if the indicated FSCI is small (<6).
+Specifically, **the card MUST be able to properly handle receiving the
+authenticate APDU (86 bytes) in a single frame**. If a card advertises
+an FSCI smaller than 6 then it is unlikely to be able to satisfy this
+requirement.
+
+For example, smart cards with DESFire EV1 emulation support have an
+FSCI of 5, and will unfortunately choke if they receive a frame larger
+than 64 bytes. Such cards are not able to be used as Tesla Key Cards.
+
+> NOTE: In earlier versions of this document, this behavior was confused with
+> the NFC UID length. It just happened to be the case that most of the
+> 4-byte UID cards the author tested also had an FCI of 5. There is no
+> limitation of the length of the UID on the card imposed by the vehicle.
 
 A list of tested cards can be found [here](https://github.com/darconeous/gauss-key-card/wiki/Recommended-Cards).
 
@@ -81,7 +96,6 @@ subsequently pair with the card.
 
  * Java Card 2.2.2 (or later)
  * Contactless ISO-14443a interface (NFC)
- * **7-byte NFC UID.**
  * **FSCI must be 6 or larger.** (Must support frame sizes of at least 96 bytes)
  * Must support [`KeyAgreement.ALG_EC_SVDP_DH`][]
  * Must support [`Cipher.ALG_AES_BLOCK_128_ECB_NOPAD`][]
