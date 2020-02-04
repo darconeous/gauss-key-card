@@ -28,6 +28,14 @@ FOR MORE INFORMATION.
 There are some serious caveats that need to be well understood before
 using this applet:
 
+### Type-A vs. Type-B ###
+
+IEEE 14443 defines two types of contactless devices: Type-A and Type-B.
+There are javacards available in both varieties, and this applet will
+blissfully allow itself to be installed onto either. However, *Tesla
+vehicles currently ignore type-B cards*, so make sure that your card is
+indeed a 14443 type-A card.
+
 ### Maximum Frame Size ###
 
 The maximum frame size (FSC) for the card must be 96 bytes or greater.
