@@ -30,9 +30,9 @@ using this applet:
 
 ### Type-A vs. Type-B ###
 
-IEEE 14443 defines two types of contactless devices: Type-A and Type-B.
+ISO/IEC 14443 defines two types of contactless devices: Type-A and Type-B.
 There are javacards available in both varieties, and this applet will
-blissfully allow itself to be installed onto either. However, *Tesla
+blissfully allow itself to be installed onto either type. However, *Tesla
 vehicles currently ignore type-B cards*, so make sure that your card is
 indeed a 14443 type-A card.
 
@@ -103,7 +103,7 @@ subsequently pair with the card.
 ## Smartcard Requirements ##
 
  * Java Card 2.2.2 (or later)
- * Contactless ISO-14443a interface (NFC)
+ * Contactless ISO/IEC 14443 **Type-A** interface (NFC)
  * **FSCI must be 6 or larger.** (Must support frame sizes of at least 96 bytes)
  * Must support [`KeyAgreement.ALG_EC_SVDP_DH`][]
  * Must support [`Cipher.ALG_AES_BLOCK_128_ECB_NOPAD`][]
