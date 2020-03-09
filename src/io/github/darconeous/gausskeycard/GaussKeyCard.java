@@ -5,6 +5,7 @@ import javacard.framework.Applet;
 import javacard.framework.ISO7816;
 import javacard.framework.ISOException;
 import javacard.security.AESKey;
+import javacard.security.CryptoException;
 import javacard.security.ECPrivateKey;
 import javacard.security.ECPublicKey;
 import javacard.security.KeyAgreement;
@@ -21,6 +22,11 @@ public class GaussKeyCard extends Applet
 	private static final byte INS_GET_CARD_INFO = (byte)0x14;
 
 	private static final short OFFSET_CHALLENGE = (short)(ISO7816.OFFSET_CDATA + 65);
+
+	// Constants from JavaCard 3.x. This way we can still install on
+	// JC 2.2.2 cards and fall back to the traditional behavior.
+	private static final byte TYPE_AES_TRANSIENT_DESELECT = 14;
+	private static final byte TYPE_AES_TRANSIENT_RESET = 13;
 
 	private final KeyPair key1;
 	private final KeyAgreement ecdh;
@@ -44,8 +50,28 @@ public class GaussKeyCard extends Applet
 
 		ecdh = KeyAgreement.getInstance(KeyAgreement.ALG_EC_SVDP_DH, false);
 
+		ecdh.init(key1.getPrivate());
+
 		aes_ecb = Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_ECB_NOPAD, false);
-		aes_key = (AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
+
+		AESKey key = null;
+
+		try {
+			// Put the AES key in RAM if we can.
+			key = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_DESELECT, KeyBuilder.LENGTH_AES_128, false);
+		} catch (CryptoException e) {
+			try {
+				// This will use a bit more RAM, but
+				// at least it isn't using flash.
+				key = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_RESET, KeyBuilder.LENGTH_AES_128, false);
+			} catch (CryptoException x) {
+				// Uggh. This will wear out the flash
+				// eventually, but we don't have a better option.
+				key = (AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
+			}
+		}
+
+		aes_key = key;
 
 		// We shouldn't require high-strength random numbers
 		// for calculating the challenge salt.
@@ -125,8 +151,6 @@ public class GaussKeyCard extends Applet
 		if (incomingLength < (short)0x51) {
 			ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 		}
-
-		ecdh.init(key1.getPrivate());
 
 		ecdh.generateSecret(buffer, ISO7816.OFFSET_CDATA, (short)65, buffer, (short)16);
 
