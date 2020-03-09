@@ -137,7 +137,7 @@ $ gp -uninstall bin/GaussKeyCard.cap
 ## Building ##
 
 1. Install `ant`.
-   * macOS/homebrew: `brew install ant`
-2. `git submodule init`
-3. `git submodule update --recursive`
-4. `JC_HOME=ext/ant/sdks/jc222_kit ant`
+   * macOS/homebrew: Run `brew install ant`
+2. Run `git submodule init`
+3. Run `git submodule update --recursive`
+4. Run `ant`
