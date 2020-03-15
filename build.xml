@@ -9,7 +9,7 @@
     <!-- Create the distribution directory -->
     <taskdef name="javacard" classname="pro.javacard.ant.JavaCard" classpath="ext/ant/ant-javacard.jar"/>
     <javacard jckit="ext/ant/sdks/jc222_kit/">
-      <cap aid="F465736C614C6F67696330303258" output="bin/GaussKeyCard.cap" sources="src" classes="bin" version="1.0">
+      <cap aid="F465736C614C6F67696330303258" output="bin/GaussKeyCard.cap" sources="src" classes="bin" version="1.1">
         <applet class="io.github.darconeous.gausskeycard.GaussKeyCard" aid="F465736C614C6F6769633030325801"/>
       </cap>
     </javacard>
